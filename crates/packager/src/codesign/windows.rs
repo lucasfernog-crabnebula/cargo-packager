@@ -204,12 +204,12 @@ pub fn sign_command<P: AsRef<Path> + Debug>(
 pub fn sign_custom<P: AsRef<Path> + Debug>(path: P, custom_command: &str) -> crate::Result<()> {
     let path = path.as_ref();
 
+    let mut cmd = sign_command_custom(path, custom_command)?;
+
     tracing::info!(
-        "Codesigning {} with a custom signing command",
+        "Codesigning {} with a custom signing command `{cmd:?}`",
         util::display_path(path),
     );
-
-    let mut cmd = sign_command_custom(path, custom_command)?;
 
     let output = cmd
         .output_ok()
